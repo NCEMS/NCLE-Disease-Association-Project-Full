@@ -1,0 +1,222 @@
+Execute
+================
+
+# Overview
+
+The `Execute` folder contains all scripts responsible for running the
+analyses in a controlled and reproducible way. It separates parameter
+definition (Control files), execution with logging (LogRun files), and
+full pipeline orchestration (`RunAll.R`). Each analysis is executed by
+first defining global parameters in a control file and then running the
+corresponding analysis script through a logging wrapper that captures
+all console output in a timestamped log file. This structure ensures
+reproducibility, clean environments between analyses, and full
+traceability of model runs.
+
+# Folder Structure
+
+The folder contains three types of files:
+
+1.  Control files → define analysis parameters
+
+2.  LogRun files → execute analysis scripts and generate log files
+
+3.  RunAll.R → runs the full analysis pipeline in sequence
+
+# Control Files
+
+Each Control file defines the parameters used in a specific analysis.
+All Control files begin by clearing the R environment to ensure no
+objects persist between runs.
+
+## Control1_1.R
+
+The example below shows the parameter values used for the analyses in
+this study. These values can be modified to run the analysis under
+different settings (e.g., using crystal structures instead of AlphaFold,
+or applying a different pLDDT threshold).
+
+``` r
+remove(list=ls())
+
+types         <- c("af")
+plddt_thresh  <- 70
+option        <- "remove"
+```
+
+Used for `AnalysisCodes/analysis1_1_bh.R`
+
+### Parameters:
+
+- types
+
+  - Options: “af” or “crystal”
+
+  - Determines which structural dataset is used.
+
+- plddt_thresh
+
+  - Range: 0–100
+
+  - Filters proteins based on structure confidence.
+
+- option
+
+  - “remove”: proteins that are disease-associated at a lower percentile
+    but not at a higher percentile are removed from the dataset for the
+    higher-percentile analysis. For example, if a protein is
+    disease-associated at the 50th percentile but not at the 75th, it is
+    removed when running the 75th-percentile analysis; if it is
+    disease-associated at the 50th and 75th but not at the 95th, it is
+    removed for the 95th-percentile analysis. This approach keeps the
+    “not disease-associated” group identical across percentile analyse.
+
+  - “keep”: no proteins are removed across percentile analyses; proteins
+    can be disease-associated at one percentile and not
+    disease-associated at another, and they remain included in every
+    percentile-specific dataset.
+
+## Control1_2.R
+
+The example below shows the parameter values used for the analyses in
+this study. These values can be modified to run the analysis under
+different settings (e.g., using crystal structures instead of AlphaFold,
+or applying a different pLDDT threshold).
+
+``` r
+remove(list=ls())
+
+cov_vec <- "noncovalent"
+types <- c("af")
+plddt_thresh <- 70
+option <- "remove"
+```
+
+Used for `AnalysisCodes/analysis1_2_bh.R` (disease-class-specific
+models).
+
+### Parameters:
+
+- types
+
+  - “af” or “crystal”
+
+- cov_vec
+
+  - “noncovalent”
+
+  - “covalent”
+
+- plddt_thresh
+
+  - Range: 0–100
+
+- option
+
+  - “remove” or “keep” (same interpretation as above)
+
+## Control1_3.R
+
+The example below shows the parameter values used for the analyses in
+this study. These values can be modified to run the analysis under
+different settings (e.g., using crystal structures instead of AlphaFold,
+or applying a different pLDDT threshold).
+
+``` r
+remove(list=ls())
+
+cov_vec <- "noncovalent"
+types <- c("af")
+plddt_thresh <- 70
+option <- "remove"
+```
+
+Used for `AnalysisCodes/analysis1_3_bh.R` (protein-level entanglement
+metrics).
+
+### Parameters:
+
+- types
+
+  - “af” or “crystal”
+
+- cov_vec
+
+  - “noncovalent”
+
+  - “covalent”
+
+- plddt_thresh
+
+  - Range: 0–100
+
+- option
+
+  - “remove” or “keep”
+
+## Control_m1.R, Control_m2.R, Control_m3.R
+
+The example below shows the parameter value used for the analyses in
+this study. This value can be modified to run the analysis under
+different settings (e.g., applying a different pLDDT threshold).
+
+``` r
+remove(list=ls())
+
+plddt_thresh  <- 70
+```
+
+Used for mutation analyses
+`AnalysisCodes/analysis_1_2_bh_mut_all_cond_q1.R`,
+`AnalysisCodes/analysis_1_2_bh_mut_all_cond_q2.R` and
+`AnalysisCodes/analysis_1_2_bh_mut_all_cond_q3.R`.
+
+### Parameters:
+
+- plddt_thresh
+
+  - Range: 0–100
+
+# LogRun Files
+
+Each LogRun script executes one analysis and automatically generates a
+timestamped log file capturing the full console output. Users **do not
+need to run these scripts directly**. They are executed automatically
+when the pipeline is run. The information below is provided only to
+explain how the logging system works.
+
+The following are captured in the log files:
+
+- Console output
+
+- Model summaries
+
+- Warnings and messages
+
+- Printed intermediate results
+
+The log file name includes:
+
+- Dataset type (e.g., AF or crystal)
+
+- pLDDT threshold
+
+- Analysis identifier
+
+- Date and time of execution
+
+Each LogRun file sources the corresponding analysis script located in
+`AnalysisCodes/`.
+
+# RunAll.R
+
+`RunAll.R` orchestrates the entire workflow. For each analysis, it:
+
+1.  Clears the R environment.
+
+2.  Sources the appropriate Control file.
+
+3.  Runs the corresponding LogRun file.
+
+This script ensures that all analyses are executed in a consistent and
+reproducible order without manual intervention.

@@ -1,0 +1,341 @@
+Analysis Codes
+================
+
+# Overview
+
+This folder contains the analysis scripts used to reproduce the results
+in the manuscript.
+
+## Important execution rule (control files)
+
+All scripts except `rf_and_match.R` and `sim_mis_prop` must be run after
+sourcing their corresponding control file, which defines global
+parameters (e.g., types, plddt_thresh, option, cov_vec, disease_only).
+See the [Execution README](Execute/README.html) for a detailed
+explanation of these parameters.
+
+Recommended: run all analyses using `source(Execute/RunAll.R)`, which
+sources each control file and then runs the matching analysis script(s)
+in the correct order.
+
+# Recommended: run everything from RunAll.R
+
+The easiest way to reproduce all analyses in this repository is to run
+the `RunAll.R` script:
+
+``` r
+source(Execute/RunAll.R)
+```
+
+Running this command will execute **all analyses** in sequence, and the
+resulting outputs (tables, and figures) will be written to the
+`Results/` folder.
+
+Alternatively, you can open `Execute/RunAll.R` in RStudio and run only
+the specific sections or lines corresponding to the analysis you want.
+This allows individual analyses to be executed separately without
+running the entire pipeline.
+
+Below, we describe each analysis in the pipeline, including the scripts
+involved and the outputs produced.
+
+# Analysis Codes
+
+## 1) analysis1_1bh.R (Supplementary Information 1.3.1.)
+
+### What it does
+
+- Fits logistic regression models for disease status vs:
+  - Entanglement for Noncovalent Entanglements
+  - Cov_Entanglement for Covalent Entanglements
+  - both for Noncovalent Entanglements AND Covalent Entanglements
+  - Knot for Knots  
+    with scale(Length) + Essential as covariates for all.
+- Runs Fisher’s exact tests for 2×2 tables.
+
+### Primary inputs
+
+- Control file: `Execute/Control1_1.R`
+
+### Primary outputs
+
+- Results tables:
+  - `Results/Dataframes/a1_1_type_<types>_pthr_<plddt>_<option>_<timestamp>.csv`
+  - `Results/Dataframes/fisher_a1_1_type_<types>_pthr_<plddt>_<option>_<timestamp>.csv`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which sources
+  `Execute/Control1_1.R` then runs `analysis1_1bh.R`.
+
+If running manually, do:
+
+``` r
+source("Execute/Control1_1.R")
+source("AnalysisCodes/analysis1_1bh.R")
+```
+
+## 2) analysis1_2bh.R (Supplementary Information 1.3.2.)
+
+### What it does
+
+- Fits logistic regression models for for each disease class status vs:
+  - Entanglement for Noncovalent Entanglements
+  - Cov_Entanglement for Covalent Entanglements
+  - Knot for Knots with scale(Length) + Essential as covariates.
+- Applies BH correction to p-values.
+- Produces an OR plot for a filtered subset (AF + noncovalent + 50th)
+  and saves plot values.
+
+### Primary inputs
+
+- Control file: `Execute/Control1_2.R`
+
+### Primary outputs
+
+- Results table:
+  - `Results/Dataframes/a1_2_type_<types>_pthr_<plddt>_<option>_<timestamp>.csv`
+- Plot (SVG) + plotted values:
+  - `Results/Plots/a1_2_af_noncov_50th_<timestamp>_plot.svg`
+  - `Results/Dataframes/a1_2_type_<...>_plot_values_<timestamp>.csv`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which sources
+  `Execute/Control1_2.R` then runs `analysis1_2bh.R`.
+
+If running manually, do:
+
+``` r
+source("Execute/Control1_2.R")
+source("AnalysisCodes/analysis1_2bh.R")
+```
+
+## 3) analysis1_3bh.R (Supplementary Information 1.3.3.)
+
+### What it does
+
+- Builds gene-level entanglement metric table (max per gene)
+- Fits logistic regression models for disease status vs entanglement
+  metric (one per model) with scale(Length) + Essential as covariates.
+- Applies BH correction to p-values.
+- Creates an OR plot for the 50% threshold table and saves plot values.
+
+### Primary inputs
+
+- Control file: `Execute/Control1_3.R`
+
+### Primary outputs
+
+- Results table:
+  - `Results/Dataframes/a1_3_type_<types>_pthr_<plddt>_<timestamp>.csv`
+- 50% plot values:
+  - `Results/Dataframes/a1_3_type_<types>_pthr_<plddt>_<timestamp>_plot_values.csv`
+- OR plot (SVG):
+  - `Results/Plots/a1_3_type_<types>_pthr_<plddt>_<timestamp>_plot.svg`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which sources
+  `Execute/Control1_3.R` then runs `analysis1_3bh.R`.
+
+If running manually, do:
+
+``` r
+source("Execute/Control1_3.R")
+source("AnalysisCodes/analysis1_3bh.R")
+```
+
+## 4) analysis_mut_all_cond_q1.R (Supplementary Information 1.4.2.)
+
+### What it does
+
+- Builds a 2×2 contingency table comparing:
+  - in_region (residue in entangled region vs not)
+  - Mis_Pathogenic (missense pathogenic mutation vs no missense
+    pathogenic mutation present)
+- Runs chi-square test and computes a manual odds ratio.
+- Fits a logistic regression:
+  - Mis_Pathogenic ~ in_region + scale(Length) + Essential
+  - outcome: residue with pathogenic mutation (yes/no)
+  - predictors: entanglement presence, scaled length, essentiality
+    status
+
+### Primary inputs
+
+- Control file: `Execute/Control_m1.R`
+
+### Primary outputs
+
+- Results table:
+  - `Results/Dataframes/mutation_q1_alltypes_pthr_<plddt>_results_len_res_<timestamp>.csv`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which sources
+  `Execute/Control_m1.R` then runs `analysis_mut_all_cond_q1.R`.
+
+If running manually, do:
+
+``` r
+source("Execute/Control_m1.R")
+source("AnalysisCodes/analysis_mut_all_cond_q1.R")
+```
+
+## 5) analysis_mut_all_cond_q2.R (Supplementary Information 1.4.1.)
+
+### What it does
+
+- Fits a binomial model on counts:
+  - cbind(Path_Mutations_m, Total_Mutations_n - Path_Mutations_m) ~
+    Entanglement + scale(Length) + Essential
+  - outcome: proportion of pathogenic mutations in protein i
+  - predictors: entanglement presence, scaled length, essentiality
+    status
+- Saves coefficient/OR table.
+
+### Primary inputs
+
+- Control file: `Execute/Control_m2.R`
+
+### Primary outputs
+
+- Results table:
+  - `Results/Dataframes/mutation_q2_type_af_pthr_<plddt>_results_len_<timestamp>.csv`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which sources
+  `Execute/Control_m2.R` then runs `analysis_mut_all_cond_q2.R`.
+
+If running manually, do:
+
+``` r
+source("Execute/Control_m2.R")
+source("AnalysisCodes/analysis_mut_all_cond_q2.R")
+```
+
+## 6) analysis_mut_all_cond_q3.R (Supplementary Information 1.4.3.)
+
+### What it does
+
+- Iterates over disease classes and (per class):
+  - subsets proteins associated with that class
+  - constructs protein-level mutation counts
+  - fits binomial model: cbind(Path_Mutations_m, Total_Mutations_n -
+    Path_Mutations_m) ~ Entanglement + scale(Length) + Essential
+    - outcome: proportion of pathogenic mutations in protein i
+    - predictors: entanglement presence, scaled length, essentiality
+      status
+- Applies BH correction across classes
+- Produces an OR plot and saves it.
+
+### Primary inputs
+
+- Control file: `Execute/Control_m3.R`
+
+### Primary outputs
+
+- Results table:
+  - `Results/Dataframes/mutation_q3_type_af_pthr_<plddt>_results_len_<timestamp>.csv`
+- OR plot (SVG):
+  - `Results/Plots/mut_q3_af_noncov_50th_<timestamp>_plot.svg`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which sources
+  `Execute/Control_m3.R` then runs `analysis_mut_all_cond_q3.R`.
+
+If running manually, do:
+
+``` r
+source("Execute/Control_m3.R")
+source("AnalysisCodes/analysis_mut_all_cond_q3.R")
+```
+
+## 7) rf_and_match.R (Supplementary Information 1.5.1., 1.5.2.)
+
+### What it does
+
+- Trains two random forests:
+  - m1: among entangled proteins, predicts disease from Z + U
+  - m0: among non-entangled proteins, predicts disease from Z only
+- Computes Δ (attributable disease probability shift) for entangled
+  proteins:
+  - Delta_2RF = P(D=1 \| E=1, U,Z) - P(D=1 \| E=0, Z)
+- Performs nearest-neighbor matching (exact on Essential) using scaled
+  covariates.
+- Computes Shapley explanations for top-50 pairs and saves outputs.
+
+### Primary inputs
+
+Does NOT require a control file (parameters are set inside the script as
+written).
+
+### Primary outputs
+
+- Δ table:
+  - `Results/Dataframes/delta_ent_<timestamp>.csv`
+- Matching output tables:
+  - `Results/Dataframes/geneall_scaledcov_<timestamp>.csv`
+  - `Results/Dataframes/geneall_unscaledcov_<timestamp>.csv`
+  - `Results/Dataframes/geneall_allvar_<timestamp>.csv`
+  - `Results/Dataframes/gene50_scaledcov_<timestamp>.csv`
+  - `Results/Dataframes/gene50_unscaledcov_<timestamp>.csv`
+  - `Results/Dataframes/gene50_allvar_<timestamp>.csv`
+- Shapley:
+  - `Results/Plots/shap_top50_pairs_<timestamp>.pdf`
+  - `Results/Dataframes/shap_results_<timestamp>.csv`
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which runs `rf_and_match.R`.
+
+If running manually, do:
+
+``` r
+source("AnalysisCodes/rf_and_match.R")
+```
+
+## 8) sim_mis_prop.R
+
+### What it does
+
+- Loads coarse-grained simulation results from
+  Data/cg_simulation_results 1.xlsx.
+- Performs a paired comparison of misfolding propensity between:
+  - the entangled + disease-associated gene, and
+  - its matched control (non-entangled + non-disease-associated).
+- Computes paired differences (gene − control) and summarizes them with
+  mean/median paired difference.
+- Runs a one-sided Brunner–Munzel test (alternative = “greater”).
+- Computes 95% bootstrap CIs for the median of each group using 10^6
+  bootstrap resamples.
+- Generates a violin plot with jittered points and a thick median bar
+  per group.
+
+### Primary inputs
+
+Does NOT require a control file (parameters are set inside the script as
+written).
+
+### Primary outputs
+
+- Results table:
+  - Results/Dataframes/sim_mis_prop_type_af_pthr_70\_<timestamp>\_results.csv
+    - Contains: Brunner–Munzel statistic and p-value, group medians, and
+      95% bootstrap CIs.
+- Plot (SVG):
+  - Results/Plots/sim_mis_prop_type_af_pthr_70\_<timestamp>\_plot.svg
+    - Violin plot with median bar comparing misfolding propensity
+      between entangled+disease proteins and matched controls.
+
+### How it is run
+
+- Via `Execute/RunAll.R` (recommended), which runs `sim_mis_prop.R`.
+
+If running manually, do:
+
+``` r
+source("AnalysisCodes/sim_mis_prop.R")
+```

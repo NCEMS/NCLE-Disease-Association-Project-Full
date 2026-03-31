@@ -1,0 +1,145 @@
+---
+title: "Natively-Entangled-Proteins-Linked-to-Human-Disease"
+output: github_document
+---
+
+# Overview
+
+This repository contains the code needed to reproduce the results in *Natively Entangled proteins are linked to human disease and pathogenic mutations likely due to misfolding*. Due to data licensing restrictions (see Data availability notice), full reproduction requires independently obtaining the necessary DisGeNET data.
+
+# Data availability notice
+
+Due to licensing restrictions associated with DisGeNET, this repository does not include certain raw data required to fully reproduce all analyses. Specifically, raw DisGeNET files with fields such as disease names, scores, and identifiers have been removed to comply with the DisGeNET user agreement.
+
+As a result, some scripts in this repository will not run as-is because of these missing data components.
+
+This repository is intended to:
+
+- Provide the original analysis code and workflow
+- Document how the data were processed and analyzed
+- Enable reproducibility for users who independently obtain access to the required DisGeNET data
+
+Users who wish to fully reproduce the analyses must obtain the appropriate data directly from DisGeNET and place it into the expected directories as described in the repository.
+
+## Repository structure
+
+The repository is organized into the following folders:
+
+- `AnalysisCodes/`: analysis scripts organized by section
+- `Data/`: input data files
+- `DataExtractionCode/`: scripts for pulling/assembling raw data into analysis-ready formats
+- `Execute/`: wrappers or “run-all” scripts to execute analyses end-to-end
+- `Functions/`: shared functions used across scripts (cleaning)
+- `Log/`: run logs and timestamps
+- `Results/`: generated outputs (tables/figures)
+
+Each folder contains its own README describing what belongs there and how to use it.
+
+### Quick start R scripts for running analyses:
+
+- `Execute/RunAll.R` — main entry point for analyses  
+- `Execute/Control[1_1, 1_2, 1_3, m1, m2, m3].R` — adjust parameters (e.g., pLDDT threshold, dataset type)
+
+
+## Environment setup
+
+All analyses in this repository were run using:
+
+R version: 4.2.1
+
+To ensure full reproducibility, all package dependencies and versions used in this project have been recorded:
+
+- `SetUp/All_PackageUsage.csv`: Contains all packages used per analysis, including the specific version loaded during each run.
+- `SetUp/Unique_Package_Versions.csv`: Contains the unique set of packages and versions required across all analyses.
+
+These files allow users to reconstruct the exact software environment used for the study.
+
+Before running the analyses, install the required packages (using the versions listed in the files above where possible).
+
+## Data access (CyVerse)
+
+The datasets required to run these analyses are not included in this repository due to their large size and data-sharing restrictions. Only the allowed subset of data is provided externally on CyVerse, as certain components cannot be distributed in accordance with the DisGeNET user agreement. As a result, full reproduction of the results is not possible using the provided data alone, and access to DisGeNET is required to obtain the complete dataset used in this study.
+
+1. Create an account
+
+Create a free CyVerse account: [CyVerse](https://user.cyverse.org/signup)
+
+2. Access and download the data
+
+Once your account is created and verified, you will be able to access the project data through the CyVerse Data Store at the following location:
+
+[Download Data_Cyverse folder]()
+ 
+3. Download the data
+
+You can download the data in two ways:
+
+**Option A: Direct download (via browser)**  
+Download the full `Data_Cyverse` folder from the CyVerse interface.
+
+**Option B: Using CyVerse GO commands (recommended for large files)**  
+Instructions for installing and using GO commands:  
+[CyVers Go commands](https://learning.cyverse.org/ds/gocommands/installation/)
+
+4. Place data in the repository
+
+After downloading:
+
+- Locate the folder named `Data_Cyverse`
+- Ensure the `Data/` folder in this repository is empty
+- Move all contents from `Data_Cyverse` into the `Data/` folder
+
+The directory structure inside `Data/` must match exactly what is provided in `Data_Cyverse` before running any analyses.
+
+## How to run
+
+All analyses in this repository are launched from the `Execute/` directory. 
+The main entry point is:
+
+- `Execute/RunAll.R`
+
+Ensure your working directory is set to the **root of the repository** before running this script.
+
+`RunAll.R` is organized into analysis blocks. Each block:
+
+1. Clears the R workspace to ensure reproducibility
+2. Sources a corresponding control file (when available)
+3. Sources a logging and execution script that runs the analysis and writes outputs to `Results/` (and logs to `Log/`)
+
+
+### Recommended workflow
+
+1. Open `Execute/RunAll.R`.
+2. Identify the analysis block(s) you want to run (e.g., Analysis 1.1, 1.2, 1.3, m1–m3, matching).
+3. **Adjust the corresponding control file(s)** in `Execute/` (e.g., `Control1_1.R`, `Control_m2.R`) if you need to change dataset types, or other parameters available.
+4. Run only the block(s) you need.
+
+## Runtime and computational resources
+
+The full pipeline was executed with the following computational configuration:
+
+- **Runtime:** ~17 minutes  
+- **Cores:** 10  
+- **Memory:** 128 GB  
+
+Note that runtime may vary depending on system specifications and I/O performance.
+
+## Authors
+
+Maria F. Anglero Mendez<sup>1,2</sup>, Ian Sitarik<sup>2*</sup>, Quyen V. Vu<sup>3*</sup>, Prabhat Totoo<sup>4</sup>, James D. Stephenson<sup>4</sup>, Hyebin Song<sup>1,5*</sup>, and Edward P. O’Brien<sup>2,3,5*</sup>
+
+1. Department of Statistics, Pennsylvania State University, University Park, PA 16802, USA  
+2. Institute for Computational and Data Sciences, Pennsylvania State University, University Park, PA 16802, USA  
+3. Department of Chemistry, Pennsylvania State University, University Park, PA 16802, USA  
+4. European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Wellcome Genome Campus, Hinxton, CB10 1SD, UK  
+5. National Science Foundation – National Synthesis Center for the Emergence of Molecular and Cellular Sciences (NCEMS), Pennsylvania State University, University Park, PA, USA  
+
+\* Co-first authors
+
+## How to cite
+
+If you use these datasets in your work, please cite:
+
+> [Citation placeholder - add full bibliographic reference when published (journal, volume, pages, year, DOI).]
+
+This work was supported by the National Science Foundation National Synthesis Center for the Emergence of Molecular and Cellular Sciences (NCEMS, DBI-2335029).

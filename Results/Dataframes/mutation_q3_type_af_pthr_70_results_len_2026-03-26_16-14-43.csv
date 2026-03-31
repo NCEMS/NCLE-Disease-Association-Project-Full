@@ -1,0 +1,22 @@
+"Disease_Class","Coef_Estimate_Entangled","OR","CI_Lower","CI_Upper","P_Value_BH_all","Protein_Count","Significant"
+"Infections (C01)",0.1858,1.204,1.035,1.401,0.017115,127,TRUE
+"Neoplasms (C04)",0.2204,1.247,1.163,1.336,7.56e-10,775,TRUE
+"Musculoskeletal Diseases (C05)",0.2957,1.344,1.244,1.452,1.50436363636364e-13,620,TRUE
+"Digestive System Diseases (C06)",0.7042,2.022,1.859,2.201,1.0752e-58,562,TRUE
+"Stomatognathic Diseases (C07)",0.2719,1.312,1.153,1.494,4.66941176470588e-05,170,TRUE
+"Respiratory Tract Diseases (C08)",0.5725,1.773,1.6,1.964,2.0615e-27,340,TRUE
+"Otorhinolaryngologic Diseases (C09)",-0.266,0.766,0.672,0.873,7.79333333333333e-05,185,TRUE
+"Nervous System Diseases (C10)",0.2561,1.292,1.215,1.374,7.35e-16,1164,TRUE
+"Eye Diseases (C11)",0.4063,1.501,1.368,1.647,1.88533333333333e-17,420,TRUE
+"Urogenital Diseases (C12)",0.3692,1.447,1.339,1.563,2.396625e-20,637,TRUE
+"Cardiovascular Diseases (C14)",0.5238,1.688,1.554,1.834,1.344e-34,490,TRUE
+"Hemic and Lymphatic Diseases (C15)",0.7446,2.106,1.88,2.358,3.885e-37,352,TRUE
+"Congenital, Hereditary, and Neonatal Diseases and Abnormalities (C16)",0.4389,1.551,1.469,1.637,3.591e-56,1448,TRUE
+"Skin and Connective Tissue Diseases (C17)",0.3654,1.441,1.338,1.553,2.214e-21,616,TRUE
+"Nutritional and Metabolic Diseases (C18)",0.4619,1.587,1.465,1.719,6.132e-29,762,TRUE
+"Endocrine System Diseases (C19)",0.3223,1.38,1.256,1.516,3.1325e-11,399,TRUE
+"Immune System Diseases (C20)",0.0154,1.016,0.905,1.139,0.792,309,FALSE
+"Pathological Conditions, Signs and Symptoms (C23)",0.159,1.172,1.102,1.247,5.88e-07,1082,TRUE
+"Chemically-Induced Disorders (C25)",0.3011,1.351,1.12,1.629,0.00179052631578947,113,TRUE
+"Behavior and Behavior Mechanisms (F01)",0.2563,1.292,1.159,1.439,4.43625e-06,402,TRUE
+"Mental Disorders (F03)",0.2758,1.318,1.21,1.434,3.52153846153846e-10,711,TRUE

@@ -1,0 +1,84 @@
+---
+title: "Functions"
+output: github_document
+---
+
+# Overview
+
+The `Functions` folder contains reusable data-processing utilities that standardize how core datasets are loaded, filtered, and transformed before analysis. These scripts centralize repeated preprocessing steps—such as selecting a dataset variant (AF vs crystal sets), applying pLDDT quality filtering, collapsing disease evidence to one score per protein, constructing modeling-ready tables, computing derived entanglement metrics (e.g., $G_{\mathrm{sum}}$ and $G_{\mathrm{max}}$), and converting entanglement-region annotations into residue-index vectors. Keeping these steps in one place ensures that all downstream analyses rely on consistent definitions, filtering rules, and derived variables.
+
+# Function Scripts
+
+## `dataProcessing_df.R`
+
+This file defines a helper function that loads the core disease-association table (final_dfA) and entanglement-feature table (final_dfB) and returns harmonized versions based on a user-selected dataset type and pLDDT threshold. It supports multiple dataset variants (e.g., AF-only, crystal-only), standardizes identifiers, joins per-protein pLDDT values, and applies the pLDDT filter for AF-based datasets so downstream analyses receive a consistent and appropriately filtered pair of protein-level tables.
+
+### Inputs
+
+- type (dataset variant):
+
+  - "af"
+  - "crystal"
+
+- plddt_thresh (numeric, 0–100):
+  Applies pLDDT filtering for AF-based datasets (e.g., "af"), ensuring only proteins meeting the quality threshold are returned.
+
+### Outputs
+
+The function returns a list containing two harmonized data frames:
+
+- final_dfA — protein-level disease association table filtered according to the selected dataset type and pLDDT threshold.
+
+- final_dfB — corresponding protein-level entanglement feature table filtered to match the proteins retained in final_dfA.
+
+These outputs are used as the primary inputs for downstream analyses throughout the repository.
+
+
+## `dataProcessing_df_analysis_3.R`
+
+This script derives analysis-specific objects by defining percentile thresholds from DisGeNET association scores, collapsing disease evidence to the maximum score per protein, and joining that outcome information to protein-level entanglement features. It further restricts the resulting dataset to entangled proteins and computes derived entanglement metrics by transforming $G_n$ and $G_c$ to absolute values and creating $G_{\mathrm{sum}} = |G_n| + |G_c|$ and $G_{\mathrm{max}} = \max\!\left(|G_n|, |G_c|\right)$. 
+
+### Inputs
+
+Objects expected in the environment:
+
+- final_dfA — protein–disease association dataset
+
+- final_dfB — protein entanglement feature dataset
+
+### Outputs
+
+The script produces two primary objects used:
+
+- percentiles — A vector containing the 95th, 75th, and 50th percentile thresholds of DisGeNET association scores.
+
+- final_df_updated — A protein-level dataset restricted to entangled proteins, containing:
+  - maximum disease score per protein
+  - entanglement features
+  - derived entanglement metrics (Gsum, Gmax)
+
+This dataset is used for downstream statistical analyses examining relationships between entanglement strength and disease association.
+
+## `dataProcessing_df_mutation.R`
+
+This script prepares entanglement region data for residue-level mutation analyses by cleaning and filtering AF entanglement data and converting entangled-region strings into numeric residue positions. The resulting table can then be joined to mutation data to determine whether each mutation falls within an entangled region.
+
+### Inputs
+
+Files read
+
+- Data/Human_AF_combined_20250521 (1).csv
+
+This dataset contains AlphaFold-derived entanglement information.
+
+### Outputs
+
+The script produces the following:
+
+- af_ent_dat_clean
+  A protein-level dataset containing:
+  - uniprotids — protein identifier
+  - numeric_EntRegion — numeric vector of residue indices belonging to entangled regions
+  - n_EntRegion — number of residues involved in entangled regions
+
+This dataset is used in mutation analyses to determine whether individual mutations occur within entangled regions of proteins.
