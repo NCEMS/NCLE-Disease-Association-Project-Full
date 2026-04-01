@@ -95,7 +95,8 @@ Once your account is created and verified, you will be able to access
 the project data through the CyVerse Data Store at the following
 location:
 
-[Download Data_Cyverse folder]()
+[Download Data_Cyverse
+folder](https://de.cyverse.org/data/ds/iplant/home/shared/NCEMS/working-groups/disease-entanglement-project/NCLE-Disease-Association-Project%20Data%20(Full)/Data_Cyverse?type=folder&resourceId=463dc11a-2961-11f1-b18d-90e2ba675364)
 
 3.  Download the data
 
