@@ -162,8 +162,8 @@ performance.
 
 ## Authors
 
-Maria F. Anglero Mendez<sup>1,2*</sup>, Ian Sitarik<sup>2*</sup>, Quyen
-V. Vu<sup>3*</sup>, Prabhat Totoo<sup>4</sup>, James D.
+Maria F. Anglero Mendez<sup>1,2±</sup>, Ian Sitarik<sup>2±</sup>, Quyen
+V. Vu<sup>3±</sup>, Prabhat Totoo<sup>4</sup>, James D.
 Stephenson<sup>4</sup>, Hyebin Song<sup>1,5*</sup>, and Edward P.
 O’Brien<sup>2,3,5*</sup>
 
@@ -180,7 +180,7 @@ O’Brien<sup>2,3,5*</sup>
     Emergence of Molecular and Cellular Sciences (NCEMS), Pennsylvania
     State University, University Park, PA, USA
 
-\* Co-first authors
+± Co-first authors
 
 ## How to cite
 

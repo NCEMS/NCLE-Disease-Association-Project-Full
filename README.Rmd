@@ -126,7 +126,7 @@ Note that runtime may vary depending on system specifications and I/O performanc
 
 ## Authors
 
-Maria F. Anglero Mendez<sup>1,2*</sup>, Ian Sitarik<sup>2*</sup>, Quyen V. Vu<sup>3*</sup>, Prabhat Totoo<sup>4</sup>, James D. Stephenson<sup>4</sup>, Hyebin Song<sup>1,5*</sup>, and Edward P. O’Brien<sup>2,3,5*</sup>
+Maria F. Anglero Mendez<sup>1,2±</sup>, Ian Sitarik<sup>2±</sup>, Quyen V. Vu<sup>3±</sup>, Prabhat Totoo<sup>4</sup>, James D. Stephenson<sup>4</sup>, Hyebin Song<sup>1,5*</sup>, and Edward P. O’Brien<sup>2,3,5*</sup>
 
 1. Department of Statistics, Pennsylvania State University, University Park, PA 16802, USA  
 2. Institute for Computational and Data Sciences, Pennsylvania State University, University Park, PA 16802, USA  
@@ -134,7 +134,7 @@ Maria F. Anglero Mendez<sup>1,2*</sup>, Ian Sitarik<sup>2*</sup>, Quyen V. Vu<su
 4. European Molecular Biology Laboratory, European Bioinformatics Institute (EMBL-EBI), Wellcome Genome Campus, Hinxton, CB10 1SD, UK  
 5. National Science Foundation – National Synthesis Center for the Emergence of Molecular and Cellular Sciences (NCEMS), Pennsylvania State University, University Park, PA, USA  
 
-\* Co-first authors
+± Co-first authors
 
 ## How to cite
 
